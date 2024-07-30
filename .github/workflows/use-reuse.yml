@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: $dist-file-path
+          path: ${{ env.dist-file-path }}
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
