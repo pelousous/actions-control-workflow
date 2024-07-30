@@ -73,6 +73,8 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with: 
       dist-file-path: $dist-file-path 
+    # secrets: 
+      # some-secret: ${{ secrets.some-secret }}  
   report:
     needs: [lint, deploy]
     if: failure()
