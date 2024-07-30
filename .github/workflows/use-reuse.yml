@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+env:
+  dist-file-path: dist      
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -65,10 +67,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist
+          path: $dist-file-path
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
+    with: 
+      dist-file-path: $dist-file-path 
   report:
     needs: [lint, deploy]
     if: failure()
