@@ -5,13 +5,19 @@ on:
       dist-file-path:
         description: "Variable for the dist-files path"
         required: true
-        type: string
+        type: string 
+    outputs: 
+      deploy-output:
+        description: "deploy output from reusable workflow"
+        value: ${{ jobs.deploy.outputs.deploy-output}}             
     # secrets:
       # some-secret:
         # required: false    
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs: 
+      deploy-output: ${{steps.job-output.outputs.deploy-output}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -20,5 +26,8 @@ jobs:
           path: ${{ inputs.dist-file-path }}
       - name: List files
         run: ls    
+      - name: job-output
+        id: job-output
+        run: echo "deploy-output=success" >> $GITHUB_OUTPUT
       - name: output information
         run: echo "Deploying & uploading"
